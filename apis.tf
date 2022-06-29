@@ -3,6 +3,7 @@ locals {
   apis = [
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
+    "cloudfunctions.googleapis.com",
     "appengine.googleapis.com",
     "datastore.googleapis.com",
     "firestore.googleapis.com",
