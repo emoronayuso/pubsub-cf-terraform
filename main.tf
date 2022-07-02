@@ -24,6 +24,12 @@ resource "google_pubsub_topic_iam_member" "role_sa_publisher" {
   depends_on   = [google_pubsub_topic.topic_cf]
 }
 
+resource "google_storage_bucket_iam_member" "role_sa_publisher_read_bucket" {
+  bucket       = google_storage_bucket.input_data.name
+  role         = "roles/storage.objectViewer"
+  member       = "serviceAccount:${google_service_account.sa_publisher.email}"
+  depends_on   = [google_storage_bucket.input_data]
+}
 
 resource "google_pubsub_subscription" "topic_cf-subscription" {
   name     = "topic_cf-subscription"
