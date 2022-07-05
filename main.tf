@@ -17,24 +17,24 @@ resource "google_service_account" "sa_publisher" {
 }
 
 resource "google_pubsub_topic_iam_member" "role_sa_publisher" {
-  project      = "${var.project_name}"
-  topic        = google_pubsub_topic.topic_cf.name
-  role         = "roles/pubsub.publisher"
-  member       = "serviceAccount:${google_service_account.sa_publisher.email}"
-  depends_on   = [google_pubsub_topic.topic_cf]
+  project    = var.project_name
+  topic      = google_pubsub_topic.topic_cf.name
+  role       = "roles/pubsub.publisher"
+  member     = "serviceAccount:${google_service_account.sa_publisher.email}"
+  depends_on = [google_pubsub_topic.topic_cf]
 }
 
 resource "google_storage_bucket_iam_member" "role_sa_publisher_read_bucket" {
-  bucket       = google_storage_bucket.input_data.name
-  role         = "roles/storage.objectViewer"
-  member       = "serviceAccount:${google_service_account.sa_publisher.email}"
-  depends_on   = [google_storage_bucket.input_data]
+  bucket     = google_storage_bucket.input_data.name
+  role       = "roles/storage.objectViewer"
+  member     = "serviceAccount:${google_service_account.sa_publisher.email}"
+  depends_on = [google_storage_bucket.input_data]
 }
 
 resource "google_pubsub_subscription" "topic_cf-subscription" {
-  name     = "topic_cf-subscription"
-  topic    = google_pubsub_topic.topic_cf.id
-  project  = "${var.project_name}"
+  name    = "topic_cf-subscription"
+  topic   = google_pubsub_topic.topic_cf.id
+  project = var.project_name
 
   ack_deadline_seconds = 100
 
@@ -52,7 +52,7 @@ resource "google_service_account" "sa_subscription" {
 }
 
 resource "google_pubsub_subscription_iam_member" "role_sa_subscription_v" {
-  project      = "${var.project_name}"
+  project      = var.project_name
   subscription = google_pubsub_subscription.topic_cf-subscription.name
   role         = "roles/pubsub.viewer"
   member       = "serviceAccount:${google_service_account.sa_subscription.email}"
@@ -69,8 +69,8 @@ resource "google_pubsub_subscription_iam_member" "role_sa_subscription_s" {
 
 ## Firestore
 resource "google_app_engine_application" "firestore" {
-  project       = "${var.project_name}"
-  location_id   = "${var.region}"
+  project       = var.project_name
+  location_id   = var.region
   database_type = "CLOUD_FIRESTORE"
 }
 

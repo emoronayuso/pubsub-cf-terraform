@@ -1,9 +1,9 @@
 variable "project_name" {
-  type = string
+  type    = string
   default = "pruebas-pubsub-systerminal"
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "europe-west3"
 }
