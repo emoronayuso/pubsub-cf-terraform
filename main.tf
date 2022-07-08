@@ -85,4 +85,11 @@ resource "google_service_account_iam_member" "role_sa_firestore" {
   member             = "serviceAccount:${google_service_account.sa_firestore.email}"
   depends_on         = [google_app_engine_application.firestore]
 }
+
+resource "google_service_account_iam_member" "role_sa_firestore_develop" {
+  service_account_id = google_service_account.sa_firestore.name
+  role               = "roles/firebase.developAdmin"
+  member             = "serviceAccount:${google_service_account.sa_subscription.email}"
+  depends_on         = [google_app_engine_application.firestore]
+}
 ##
