@@ -74,20 +74,15 @@ resource "google_app_engine_application" "firestore" {
   database_type = "CLOUD_FIRESTORE"
 }
 
-resource "google_service_account" "sa_firestore" {
-  account_id   = "sa-firestore"
-  display_name = "sa-firestore"
-}
-
 resource "google_service_account_iam_member" "role_sa_firestore" {
-  service_account_id = google_service_account.sa_firestore.name
+  service_account_id = google_service_account.sa_subscription.name
   role               = "roles/datastore.user"
-  member             = "serviceAccount:${google_service_account.sa_firestore.email}"
+  member             = "serviceAccount:${google_service_account.sa_subscription.email}"
   depends_on         = [google_app_engine_application.firestore]
 }
 
 resource "google_service_account_iam_member" "role_sa_firestore_develop" {
-  service_account_id = google_service_account.sa_firestore.name
+  service_account_id = google_service_account.sa_subscription.name
   role               = "roles/firebase.developAdmin"
   member             = "serviceAccount:${google_service_account.sa_subscription.email}"
   depends_on         = [google_app_engine_application.firestore]
