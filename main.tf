@@ -78,13 +78,23 @@ resource "google_service_account_iam_member" "role_sa_firestore" {
   service_account_id = google_service_account.sa_subscription.name
   role               = "roles/datastore.user"
   member             = "serviceAccount:${google_service_account.sa_subscription.email}"
-  depends_on         = [google_app_engine_application.firestore]
 }
 
 resource "google_service_account_iam_member" "role_sa_firestore_develop" {
   service_account_id = google_service_account.sa_subscription.name
   role               = "roles/firebase.developAdmin"
   member             = "serviceAccount:${google_service_account.sa_subscription.email}"
-  depends_on         = [google_app_engine_application.firestore]
+}
+
+resource "google_service_account_iam_member" "role_sa_firestore_serviceStorageAgent" {
+  service_account_id = google_service_account.sa_subscription.name
+  role               = "roles/firebasestorage.serviceAgent"
+  member             = "serviceAccount:${google_service_account.sa_subscription.email}"
+}
+
+resource "google_service_account_iam_member" "role_sa_firestore_serviceAgent" {
+  service_account_id = google_service_account.sa_subscription.name
+  role               = "roles/firestore.serviceAgent"
+  member             = "serviceAccount:${google_service_account.sa_subscription.email}"
 }
 ##
